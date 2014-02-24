@@ -48,6 +48,7 @@ namespace TwitchPlays
             if (e.KeyChar == (char)13)
             {
                 handler.Handle(textBox1.Text);
+                textBox1.Clear();
             }
         }
     }
