@@ -22,6 +22,7 @@ namespace TwitchPlays
             InitializeComponent();
             joystick = new vJoy();
             id = 1;
+            handler = new InputHandler(joystick, id);
             ///// Write access to vJoy Device - Basic
             VjdStat status;
             status = joystick.GetVJDStatus(id);
@@ -32,56 +33,22 @@ namespace TwitchPlays
                 prt = String.Format("Failed to acquire vJoy device number {0}.", id);
             else
                 prt = String.Format("Acquired: vJoy device number {0}.", id);
-            Reset();
+
+            handler.Handle(String.Format("reset"));
 
             MessageBox.Show(prt);
         }
         vJoy joystick;
         uint id;
+        InputHandler handler;
 
-        private void Reset()
+
+        private void CheckKeys(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
-            //les HID_USAGES c'est l'enum qui contient tout les AXIS qu'on peut utiliser.
-            //X, Y, Z, Rotation Z, Y... Tout
-
-            //cette boucle la met tout les axis à "Neutre"
-            foreach (var item in (HID_USAGES[]) Enum.GetValues(typeof(HID_USAGES)))
+            if (e.KeyChar == (char)13)
             {
-                //16500 c'est la valeur neutre.
-                //min = 0
-                //max = 33000
-                var lel = joystick.SetAxis(16500, id, item);
+                handler.Handle(textBox1.Text);
             }
-
-        }
-
-        private void button4_MouseUp(object sender, MouseEventArgs e)
-        {
-            Reset();
-        }
-
-        private void button1_MouseDown(object sender, MouseEventArgs e)
-        {
-            //Left
-            joystick.SetAxis(0, id, HID_USAGES.HID_USAGE_X);
-        }
-
-        private void button2_MouseDown(object sender, MouseEventArgs e)
-        {
-            //Up
-            joystick.SetAxis(0, id, HID_USAGES.HID_USAGE_Y);
-        }
-
-        private void button3_MouseDown(object sender, MouseEventArgs e)
-        {
-            //Right
-            joystick.SetAxis(33000, id, HID_USAGES.HID_USAGE_X);
-        }
-
-        private void button4_MouseDown(object sender, MouseEventArgs e)
-        {
-            //Down
-            joystick.SetAxis(33000, id, HID_USAGES.HID_USAGE_Y);
         }
     }
 }

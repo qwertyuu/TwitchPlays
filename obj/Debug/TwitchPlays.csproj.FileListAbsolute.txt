@@ -7,3 +7,14 @@ C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\obj\
 C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\obj\Debug\TwitchPlays.csproj.GenerateResource.Cache
 C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\obj\Debug\TwitchPlays.exe
 C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\obj\Debug\TwitchPlays.pdb
+G:\GitRepo\TwitchPlays\bin\Debug\TwitchPlays.exe.config
+G:\GitRepo\TwitchPlays\obj\Debug\TwitchPlays.exe
+G:\GitRepo\TwitchPlays\obj\Debug\TwitchPlays.pdb
+G:\GitRepo\TwitchPlays\obj\Debug\TwitchPlays.Form1.resources
+G:\GitRepo\TwitchPlays\obj\Debug\TwitchPlays.Properties.Resources.resources
+G:\GitRepo\TwitchPlays\obj\Debug\TwitchPlays.csproj.GenerateResource.Cache
+G:\GitRepo\TwitchPlays\bin\Debug\vJoyInterface.dll
+G:\GitRepo\TwitchPlays\bin\Debug\vJoyInterfaceWrap.dll
+G:\GitRepo\TwitchPlays\bin\Debug\TwitchPlays.exe
+G:\GitRepo\TwitchPlays\bin\Debug\TwitchPlays.pdb
+G:\GitRepo\TwitchPlays\obj\Debug\TwitchPlays.csprojResolveAssemblyReference.cache
