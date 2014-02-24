@@ -16,6 +16,9 @@ namespace TwitchPlays
     {
         public Form1()
         {
+            //INSTALLE VJOY
+            //http://softlayer-ams.dl.sourceforge.net/project/vjoystick/Beta%202.x/2.0.2%20030114/vJoy_x86x64_I030114.exe
+            //les DLL sont supposer se placer tuseul dans le projet mais un DLL fait rien si t'as pas le driver de vJoy installé
             InitializeComponent();
             joystick = new vJoy();
             id = 1;
@@ -31,15 +34,22 @@ namespace TwitchPlays
                 prt = String.Format("Acquired: vJoy device number {0}.", id);
             Reset();
 
-            //MessageBox.Show(prt);
+            MessageBox.Show(prt);
         }
         vJoy joystick;
         uint id;
 
         private void Reset()
         {
+            //les HID_USAGES c'est l'enum qui contient tout les AXIS qu'on peut utiliser.
+            //X, Y, Z, Rotation Z, Y... Tout
+
+            //cette boucle la met tout les axis à "Neutre"
             foreach (var item in (HID_USAGES[]) Enum.GetValues(typeof(HID_USAGES)))
             {
+                //16500 c'est la valeur neutre.
+                //min = 0
+                //max = 33000
                 var lel = joystick.SetAxis(16500, id, item);
             }
 
@@ -52,21 +62,25 @@ namespace TwitchPlays
 
         private void button1_MouseDown(object sender, MouseEventArgs e)
         {
+            //Left
             joystick.SetAxis(0, id, HID_USAGES.HID_USAGE_X);
         }
 
         private void button2_MouseDown(object sender, MouseEventArgs e)
         {
+            //Up
             joystick.SetAxis(0, id, HID_USAGES.HID_USAGE_Y);
         }
 
         private void button3_MouseDown(object sender, MouseEventArgs e)
         {
+            //Right
             joystick.SetAxis(33000, id, HID_USAGES.HID_USAGE_X);
         }
 
         private void button4_MouseDown(object sender, MouseEventArgs e)
         {
+            //Down
             joystick.SetAxis(33000, id, HID_USAGES.HID_USAGE_Y);
         }
     }
