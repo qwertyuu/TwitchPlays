@@ -1,0 +1,11 @@
+C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\bin\x64\Debug\TwitchPlays.exe.config
+C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\obj\x64\Debug\TwitchPlays.csprojResolveAssemblyReference.cache
+C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\obj\x64\Debug\TwitchPlays.Form1.resources
+C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\obj\x64\Debug\TwitchPlays.Properties.Resources.resources
+C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\obj\x64\Debug\TwitchPlays.csproj.GenerateResource.Cache
+C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\bin\x64\Debug\TwitchPlays.exe
+C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\bin\x64\Debug\TwitchPlays.pdb
+C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\bin\x64\Debug\vJoyInterfaceWrap.dll
+C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\obj\x64\Debug\TwitchPlays.exe
+C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\obj\x64\Debug\TwitchPlays.pdb
+C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\bin\x64\Debug\vJoyInterface.dll

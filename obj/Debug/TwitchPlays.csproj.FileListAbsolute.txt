@@ -1,0 +1,9 @@
+C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\bin\Debug\TwitchPlays.exe.config
+C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\bin\Debug\TwitchPlays.exe
+C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\bin\Debug\TwitchPlays.pdb
+C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\obj\Debug\TwitchPlays.csprojResolveAssemblyReference.cache
+C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\obj\Debug\TwitchPlays.Form1.resources
+C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\obj\Debug\TwitchPlays.Properties.Resources.resources
+C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\obj\Debug\TwitchPlays.csproj.GenerateResource.Cache
+C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\obj\Debug\TwitchPlays.exe
+C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\obj\Debug\TwitchPlays.pdb
