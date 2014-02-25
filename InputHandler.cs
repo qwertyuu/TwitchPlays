@@ -67,9 +67,10 @@ namespace TwitchPlays
 
         public void Handle(String str)
         {
-            str.ToLower();
-            if (commands.ContainsKey(str))
-                commands[str].DynamicInvoke();
+            Reset();
+            var text = str.ToLower();
+            if (commands.ContainsKey(text))
+                commands[text].DynamicInvoke();
         }
     }
 }
