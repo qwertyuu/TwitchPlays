@@ -15,62 +15,158 @@ namespace TwitchPlays
     class InputHandler
     {
         private Dictionary<String, Delegate> commands = new Dictionary<String, Delegate>();
-        private vJoy joystick;
-        private uint id;
+        private vJoy player1;
+        private vJoy player2;
+        private string lastInput;
+        private string currentInput;
 
-        public InputHandler(vJoy joy, uint _id)
+        public InputHandler()
         {
-            joystick = joy;
-            id = _id;
-            commands["reset"] = new Action(Reset);
-            commands["left"] = new Action(Left);
-            commands["right"] = new Action(Right);
-            commands["up"] = new Action(Up);
-            commands["down"] = new Action(Down);
+            player1 = new vJoy();
+            player2 = new vJoy();
+            ///// Write access to vJoy Device - Basic
+            VjdStat status = player1.GetVJDStatus(1);
+            
+            // Acquire the target
+            string prt;
+            if ((status == VjdStat.VJD_STAT_OWN) ||
+            ((status == VjdStat.VJD_STAT_FREE) && (!player1.AcquireVJD(1))))
+                prt = String.Format("Failed to acquire vJoy device number {0}.", 1);
+            else
+                prt = String.Format("Acquired: vJoy device number {0}.", 1);
+            MessageBox.Show(prt);
+
+
+            status = player2.GetVJDStatus(2);
+
+            // Acquire the target
+            if ((status == VjdStat.VJD_STAT_OWN) ||
+            ((status == VjdStat.VJD_STAT_FREE) && (!player2.AcquireVJD(2))))
+                prt = String.Format("Failed to acquire vJoy device number {0}.", 2);
+            else
+                prt = String.Format("Acquired: vJoy device number {0}.", 2);
+            MessageBox.Show(prt);
+            lastInput = "";
+            commands["left"] = new Func<uint, bool>(Left);
+            commands["right"] = new Func<uint, bool>(Right);
+            commands["up"] = new Func<uint, bool>(Up);
+            commands["down"] = new Func<uint, bool>(Down);
+            commands["a"] = new Func<uint, bool>(A);
+            commands["b"] = new Func<uint, bool>(B);
+            commands["start"] = new Func<uint, bool>(Start);
         }
 
-        private void Reset()
+        private bool Start(uint player)
         {
-            //les HID_USAGES c'est l'enum qui contient tout les AXIS qu'on peut utiliser.
-            //X, Y, Z, Rotation Z, Y... Tout
+            vJoy playa = player == 1 ? player1 : player2;
+            return playa.SetBtn(true, player, 5);
+        }
 
-            //cette boucle la met tout les axis à "Neutre"
-            foreach (var item in (HID_USAGES[])Enum.GetValues(typeof(HID_USAGES)))
+        private bool Right(uint player)
+        {
+            vJoy playa = player == 1 ? player1 : player2;
+            return playa.SetDiscPov(1, player, 1);
+        }
+
+        private bool Left(uint player)
+        {
+            vJoy playa = player == 1 ? player1 : player2;
+            return playa.SetDiscPov(3, player, 1);
+        }
+
+        private bool Up(uint player)
+        {
+            vJoy playa = player == 1 ? player1 : player2;
+            return playa.SetDiscPov(0, player, 1);
+        }
+
+        private bool Down(uint player)
+        {
+            vJoy playa = player == 1 ? player1 : player2;
+            return playa.SetDiscPov(2, player, 1);
+        }
+
+        private bool B(uint player)
+        {
+            vJoy playa = player == 1 ? player1 : player2;
+            return playa.SetBtn(true, player, 2);
+        }
+
+        private bool A(uint player)
+        {
+            vJoy playa = player == 1 ? player1 : player2;
+            return playa.SetBtn(true, player, 1);
+        }
+
+        public void Handle(string str)
+        {
+            uint player;
+            currentInput = ParseInput(str, out player);
+            if (player == 1)
             {
-                //16500 c'est la valeur neutre.
-                //min = 0
-                //max = 33000
-                var lel = joystick.SetAxis(16500, id, item);
+                Reset(player);
             }
-
+            else if(player == 2)
+            {
+                Reset(player);
+            }
+            if (commands.ContainsKey(currentInput))
+                commands[currentInput].DynamicInvoke(player);
         }
 
-        private void Left()
+        private string ParseInput(string str, out uint player)
         {
-            joystick.SetAxis(0, id, HID_USAGES.HID_USAGE_X);
+            string[] parts = str.Trim().Split(' ');
+            if (parts.Length != 2 || parts[0].Length != 1)
+            {
+                player = 0;
+                return "";
+            }
+            else
+            {
+                if (uint.TryParse(parts[0], out player))
+                {
+                    return parts[1];
+                }
+                else
+                {
+                    player = 0;
+                    return "";
+                }
+            }
         }
 
-        private void Up()
-        {
-            joystick.SetAxis(0, id, HID_USAGES.HID_USAGE_Y);
-        }
+        //les HID_USAGES c'est l'enum qui contient tout les AXIS qu'on peut utiliser.
+        //X, Y, Z, Rotation Z, Y... Tout
 
-        private void Right()
+        //cette boucle la met tout les axis à "Neutre"
+        //foreach (var item in (HID_USAGES[])Enum.GetValues(typeof(HID_USAGES)))
+        //{
+        //    //16500 c'est la valeur neutre.
+        //    //min = 0
+        //    //max = 33000
+        //    var lel = joystick.SetAxis(16500, player, item);
+        //}
+        /*
+         *   0
+         * 3   1
+         *   2
+         */
+        private void Reset(uint player)
         {
-            joystick.SetAxis(33000, id, HID_USAGES.HID_USAGE_X);
-        }
-
-        private void Down()
-        {
-            joystick.SetAxis(33000, id, HID_USAGES.HID_USAGE_Y);
-        }
-
-        public void Handle(String str)
-        {
-            Reset();
-            var text = str.ToLower();
-            if (commands.ContainsKey(text))
-                commands[text].DynamicInvoke();
+            vJoy playa = player == 1 ? player1 : player2;
+            bool code = false;
+            for (uint i = 1; i <= 2; i++)
+            {
+                code = playa.SetDiscPov(-1, player, i);
+                code = playa.SetBtn(false, player, i);
+            }
+            for (uint i = 3; i <= 5; i++)
+            {
+                code = playa.SetBtn(false, player, i);
+            }
+            System.Threading.Thread.Sleep(50);
+            lastInput = currentInput;
         }
     }
 }
