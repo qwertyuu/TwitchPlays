@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using vJoyInterfaceWrap;
-using IrcDotNet;
 
 namespace TwitchPlays
 {

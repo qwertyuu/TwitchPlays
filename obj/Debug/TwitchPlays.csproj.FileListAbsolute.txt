@@ -18,3 +18,6 @@ G:\GitRepo\TwitchPlays\bin\Debug\vJoyInterfaceWrap.dll
 G:\GitRepo\TwitchPlays\bin\Debug\TwitchPlays.exe
 G:\GitRepo\TwitchPlays\bin\Debug\TwitchPlays.pdb
 G:\GitRepo\TwitchPlays\obj\Debug\TwitchPlays.csprojResolveAssemblyReference.cache
+C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\bin\Debug\IrcDotNet.dll
+C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\bin\Debug\vJoyInterface.dll
+C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\bin\Debug\vJoyInterfaceWrap.dll

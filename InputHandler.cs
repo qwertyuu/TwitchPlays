@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using vJoyInterfaceWrap;
+using Meebey.SmartIrc4net;
 
 namespace TwitchPlays
 {
@@ -22,6 +23,7 @@ namespace TwitchPlays
 
         public InputHandler()
         {
+            
             player1 = new vJoy();
             player2 = new vJoy();
             ///// Write access to vJoy Device - Basic
@@ -45,6 +47,7 @@ namespace TwitchPlays
                 prt = String.Format("Failed to acquire vJoy device number {0}.", 2);
             else
                 prt = String.Format("Acquired: vJoy device number {0}.", 2);
+
             MessageBox.Show(prt);
             lastInput = "";
             commands["left"] = new Func<uint, bool>(Left);
@@ -98,20 +101,22 @@ namespace TwitchPlays
             return playa.SetBtn(true, player, 1);
         }
 
-        public void Handle(string str)
+        public string Handle(string str)
         {
             uint player;
             currentInput = ParseInput(str, out player);
-            if (player == 1)
-            {
-                Reset(player);
-            }
-            else if(player == 2)
-            {
-                Reset(player);
-            }
+            Reset(player);
+            bool succeed = false;
             if (commands.ContainsKey(currentInput))
-                commands[currentInput].DynamicInvoke(player);
+                succeed = (bool)commands[currentInput].DynamicInvoke(player);
+            if (succeed)
+            {
+                return string.Format("Player {0} issued command {1}", player, currentInput);
+            }
+            else
+            {
+                return string.Empty;
+            }
         }
 
         private string ParseInput(string str, out uint player)
@@ -122,12 +127,12 @@ namespace TwitchPlays
                 player = 0;
                 return "";
             }
+
             else
             {
                 if (uint.TryParse(parts[0], out player))
-                {
                     return parts[1];
-                }
+                
                 else
                 {
                     player = 0;
@@ -162,9 +167,8 @@ namespace TwitchPlays
                 code = playa.SetBtn(false, player, i);
             }
             for (uint i = 3; i <= 5; i++)
-            {
                 code = playa.SetBtn(false, player, i);
-            }
+
             System.Threading.Thread.Sleep(50);
             lastInput = currentInput;
         }
