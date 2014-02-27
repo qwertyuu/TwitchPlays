@@ -22,6 +22,7 @@ namespace TwitchPlays
             InitializeComponent();
             handler = new InputHandler();
             states = new Stack<string>();
+            TwitchIRCBot hah = new TwitchIRCBot();
         }
         InputHandler handler;
         Stack<string> states;

@@ -21,3 +21,7 @@ G:\GitRepo\TwitchPlays\obj\Debug\TwitchPlays.csprojResolveAssemblyReference.cach
 C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\bin\Debug\IrcDotNet.dll
 C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\bin\Debug\vJoyInterface.dll
 C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\bin\Debug\vJoyInterfaceWrap.dll
+C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\bin\Debug\Meebey.SmartIrc4net.dll
+C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\bin\Debug\log4net.dll
+C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\bin\Debug\Meebey.SmartIrc4net.pdb
+C:\Users\Paul\Documents\Visual Studio 2012\Projects\TwitchPlays\TwitchPlays\bin\Debug\log4net.xml
