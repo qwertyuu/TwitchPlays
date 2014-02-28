@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,21 +9,18 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using vJoyInterfaceWrap;
-using Meebey.SmartIrc4net;
 
 namespace TwitchPlays
 {
     class InputHandler
     {
-        private Dictionary<String, Delegate> commands = new Dictionary<String, Delegate>();
+        private Dictionary<String, uint> usersList;
+        private Dictionary<String, Delegate> commands ;
         private vJoy player1;
         private vJoy player2;
-        private string lastInput;
-        private string currentInput;
 
         public InputHandler()
         {
-            
             player1 = new vJoy();
             player2 = new vJoy();
             ///// Write access to vJoy Device - Basic
@@ -49,7 +46,8 @@ namespace TwitchPlays
                 prt = String.Format("Acquired: vJoy device number {0}.", 2);
 
             MessageBox.Show(prt);
-            lastInput = "";
+            usersList = new Dictionary<string, uint>();
+            commands = new Dictionary<string, Delegate>();
             commands["left"] = new Func<uint, bool>(Left);
             commands["right"] = new Func<uint, bool>(Right);
             commands["up"] = new Func<uint, bool>(Up);
@@ -101,62 +99,48 @@ namespace TwitchPlays
             return playa.SetBtn(true, player, 1);
         }
 
-        public string Handle(string str)
-        {
-            uint player;
-            currentInput = ParseInput(str, out player);
-            Reset(player);
-            bool succeed = false;
-            if (commands.ContainsKey(currentInput))
-                succeed = (bool)commands[currentInput].DynamicInvoke(player);
-            if (succeed)
-            {
-                return string.Format("Player {0} issued command {1}", player, currentInput);
-            }
-            else
-            {
-                return string.Empty;
-            }
-        }
 
-        private string ParseInput(string str, out uint player)
+        public CommandEventArgs Handle(string command, string user)
         {
-            string[] parts = str.Trim().Split(' ');
-            if (parts.Length != 2 || parts[0].Length != 1)
+            string[] allTheStuff = command.Trim().Split(' ');
+            bool succeeded = false;
+            uint chosenPlayer = 0;
+            switch (allTheStuff[0])
             {
-                player = 0;
-                return "";
+                case "player":
+                    if (uint.TryParse(allTheStuff[1], out chosenPlayer) && allTheStuff.Length == 2)
+                    {
+                        succeeded = SetPlayer(chosenPlayer, user);
+                    }
+                    break;
+                default:
+                    if (!usersList.ContainsKey(user) || allTheStuff.Length > 1 || !commands.ContainsKey(allTheStuff[0]))
+                        return null;
+                    uint currentPlayer = usersList[user];
+                    Reset(currentPlayer);
+                    succeeded = (bool)commands[allTheStuff[0]].DynamicInvoke(currentPlayer);
+                    break;
             }
-
-            else
+            if (succeeded)
             {
-                if (uint.TryParse(parts[0], out player))
-                    return parts[1];
-                
-                else
+                return new CommandEventArgs()
                 {
-                    player = 0;
-                    return "";
-                }
+                    Player = user,
+                    Command = allTheStuff[0],
+                    NewPlayer = chosenPlayer
+                };
+            }
+            else
+            {
+                return null;
             }
         }
 
-        //les HID_USAGES c'est l'enum qui contient tout les AXIS qu'on peut utiliser.
-        //X, Y, Z, Rotation Z, Y... Tout
-
-        //cette boucle la met tout les axis à "Neutre"
-        //foreach (var item in (HID_USAGES[])Enum.GetValues(typeof(HID_USAGES)))
-        //{
-        //    //16500 c'est la valeur neutre.
-        //    //min = 0
-        //    //max = 33000
-        //    var lel = joystick.SetAxis(16500, player, item);
-        //}
-        /*
-         *   0
-         * 3   1
-         *   2
-         */
+        private bool SetPlayer(uint chosenPlayer, string user)
+        {
+            usersList[user] = chosenPlayer;
+            return true;
+        }
         private void Reset(uint player)
         {
             vJoy playa = player == 1 ? player1 : player2;
@@ -170,7 +154,6 @@ namespace TwitchPlays
                 code = playa.SetBtn(false, player, i);
 
             System.Threading.Thread.Sleep(50);
-            lastInput = currentInput;
         }
     }
 }
