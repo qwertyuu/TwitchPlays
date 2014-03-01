@@ -11,7 +11,18 @@ namespace TwitchPlays
         public string End;
         public override string ToString()
         {
-            return Beginning + End.PadLeft(Form1.charWidth * 2 - Beginning.Length, '.');
+            int total = Form1.charWidth * 2;
+            int minimum = End.Length + 3;
+            int totalMinusMinimum = total - minimum;
+            if (total - minimum >= Beginning.Length)
+            {
+                return Beginning + End.PadLeft((Form1.charWidth * 2 - 1) - Beginning.Length, '.');
+            }
+            else
+            {
+                string tempBeginning = Beginning.Substring(0, total - minimum);
+                return tempBeginning + End.PadLeft((Form1.charWidth * 2 - 1) - tempBeginning.Length, '.');
+            }
         }
     }
 }

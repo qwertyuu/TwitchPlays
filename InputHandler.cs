@@ -105,6 +105,7 @@ namespace TwitchPlays
             string[] allTheStuff = command.Trim().Split(' ');
             bool succeeded = false;
             uint chosenPlayer = 0;
+            allTheStuff[0] = allTheStuff[0].ToLower();
             switch (allTheStuff[0])
             {
                 case "player":

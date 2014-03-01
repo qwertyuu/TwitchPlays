@@ -15,8 +15,11 @@ namespace TwitchPlays
 {
     public partial class Form1 : Form
     {
+        [DllImport("user32.dll", EntryPoint = "HideCaret")]
+        public static extern long HideCaret(IntPtr hwnd);
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
+
         static extern bool AllocConsole();
         List<CustomString> commands;
         Size singleCharSize;
@@ -28,8 +31,11 @@ namespace TwitchPlays
             //INSTALLE VJOY
             //http://softlayer-ams.dl.sourceforge.net/project/vjoystick/Beta%202.x/2.0.2%20030114/vJoy_x86x64_I030114.exe
             //les DLL sont supposer se placer tuseul dans le projet mais un DLL fait rien si t'as pas le driver de vJoy installé
+#if DEBUG
             AllocConsole();
+#endif
             InitializeComponent();
+            HideCaret(richTextBox1.Handle);
             bot = new IrcBot();
             commands = new List<CustomString>();
             singleCharSize = TextRenderer.MeasureText("a", richTextBox1.Font);
@@ -46,7 +52,7 @@ namespace TwitchPlays
         {
             if (e.Command == "player")
             {
-                commands.Add(new CustomString() { Beginning = e.Player + " is now player", End = e.NewPlayer.ToString() });
+                commands.Add(new CustomString() { Beginning = e.Player, End = e.NewPlayer.ToString() });
             }
             else
             {
@@ -101,6 +107,12 @@ namespace TwitchPlays
                 ReleaseCapture();
                 SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
             }
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            bot.botThread.Abort();
+            IrcBot.stop = true;
         }
     }
 }
