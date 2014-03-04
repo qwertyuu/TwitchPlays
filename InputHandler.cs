@@ -48,54 +48,47 @@ namespace TwitchPlays
             MessageBox.Show(prt);
             usersList = new Dictionary<string, uint>();
             commands = new Dictionary<string, Delegate>();
-            commands["left"] = new Func<uint, bool>(Left);
-            commands["right"] = new Func<uint, bool>(Right);
-            commands["up"] = new Func<uint, bool>(Up);
-            commands["down"] = new Func<uint, bool>(Down);
-            commands["a"] = new Func<uint, bool>(A);
-            commands["b"] = new Func<uint, bool>(B);
-            commands["start"] = new Func<uint, bool>(Start);
+            commands["left"] = new Func<uint, vJoy,  bool>(Left);
+            commands["right"] = new Func<uint, vJoy, bool>(Right);
+            commands["up"] = new Func<uint, vJoy, bool>(Up);
+            commands["down"] = new Func<uint, vJoy, bool>(Down);
+            commands["a"] = new Func<uint, vJoy, bool>(A);
+            commands["b"] = new Func<uint, vJoy, bool>(B);
+            commands["start"] = new Func<uint, vJoy, bool>(Start);
         }
 
-        private bool Start(uint player)
+        private bool Start(uint player, vJoy playa)
         {
-            vJoy playa = player == 1 ? player1 : player2;
             return playa.SetBtn(true, player, 5);
         }
 
-        private bool Right(uint player)
+        private bool Right(uint player, vJoy playa)
         {
-            vJoy playa = player == 1 ? player1 : player2;
             return playa.SetDiscPov(1, player, 1);
         }
 
-        private bool Left(uint player)
+        private bool Left(uint player, vJoy playa)
         {
-            vJoy playa = player == 1 ? player1 : player2;
             return playa.SetDiscPov(3, player, 1);
         }
 
-        private bool Up(uint player)
+        private bool Up(uint player, vJoy playa)
         {
-            vJoy playa = player == 1 ? player1 : player2;
             return playa.SetDiscPov(0, player, 1);
         }
 
-        private bool Down(uint player)
+        private bool Down(uint player, vJoy playa)
         {
-            vJoy playa = player == 1 ? player1 : player2;
             return playa.SetDiscPov(2, player, 1);
         }
 
-        private bool B(uint player)
+        private bool B(uint player, vJoy playa)
         {
-            vJoy playa = player == 1 ? player1 : player2;
             return playa.SetBtn(true, player, 2);
         }
 
-        private bool A(uint player)
+        private bool A(uint player, vJoy playa)
         {
-            vJoy playa = player == 1 ? player1 : player2;
             return playa.SetBtn(true, player, 1);
         }
 
@@ -119,6 +112,7 @@ namespace TwitchPlays
                         return null;
                     uint currentPlayer = usersList[user];
                     Reset(currentPlayer);
+                    vJoy playa = currentPlayer == 1 ? player1 : player2;
                     succeeded = (bool)commands[allTheStuff[0]].DynamicInvoke(currentPlayer);
                     break;
             }

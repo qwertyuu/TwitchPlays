@@ -53,6 +53,7 @@ namespace TwitchPlays
         }
         public void Run()
         {
+
             string commandToRemove = "PRIVMSG #twitchplaysmortalkombat4 :";
             writer.WriteLine("PASS oauth:b5ryphmmirmf4cmk9ro6874jdpuc428");
             ping.Start();
