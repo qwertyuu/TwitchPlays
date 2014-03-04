@@ -24,6 +24,7 @@ namespace TwitchPlays
         private string USER = "USER twitchplaysmortalkombat4 0 * :twitchplaysmortalkombat4";
         private string NICK = "twitchplaysmortalkombat4";
         private string CHANNEL = "#twitchplaysmortalkombat4";
+        private string PASS;
         public static StreamWriter writer;
         public Thread botThread;
         public event CommandHandler IssuedCommand;
@@ -33,6 +34,10 @@ namespace TwitchPlays
 
         public IrcBot()
         {
+            using (StreamReader sR = new StreamReader("PASS.txt"))
+            {
+                PASS = sR.ReadLine();
+            }
             try
             {
                 handler = new InputHandler();
@@ -55,7 +60,7 @@ namespace TwitchPlays
         {
 
             string commandToRemove = "PRIVMSG #twitchplaysmortalkombat4 :";
-            writer.WriteLine("PASS oauth:b5ryphmmirmf4cmk9ro6874jdpuc428");
+            writer.WriteLine("PASS " + PASS);
             ping.Start();
             writer.WriteLine("NICK " + NICK);
             writer.WriteLine(USER);

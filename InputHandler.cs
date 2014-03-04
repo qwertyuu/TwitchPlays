@@ -12,7 +12,7 @@ using vJoyInterfaceWrap;
 
 namespace TwitchPlays
 {
-    class InputHandler
+    public partial class InputHandler
     {
         private Dictionary<String, uint> usersList;
         private Dictionary<String, Delegate> commands ;
@@ -55,6 +55,35 @@ namespace TwitchPlays
             commands["a"] = new Func<uint, vJoy, bool>(A);
             commands["b"] = new Func<uint, vJoy, bool>(B);
             commands["start"] = new Func<uint, vJoy, bool>(Start);
+            commands["c1"] = commands["z"] = new Func<uint, vJoy, bool>(C1);
+            commands["c2"] = new Func<uint, vJoy, bool>(C2);
+            commands["c3"] = new Func<uint, vJoy, bool>(C3);
+            commands["c4"] = new Func<uint, vJoy, bool>(C4);
+            commands["rb"] = new Func<uint, vJoy, bool>(RB);
+            commands["lb"] = new Func<uint, vJoy, bool>(LB);
+            commands["none"] = new Func<uint, vJoy, bool>(None);
+        }
+
+        private bool None(uint player, vJoy playa)
+        {
+            return playa.SetDiscPov(-1, player, 1);
+        }
+
+        private bool C1(uint player, vJoy playa)
+        {
+            return playa.SetDiscPov(3, player, 2);
+        }
+        private bool C2(uint player, vJoy playa)
+        {
+            return playa.SetDiscPov(0, player, 2);
+        }
+        private bool C3(uint player, vJoy playa)
+        {
+            return playa.SetDiscPov(1, player, 2);
+        }
+        private bool C4(uint player, vJoy playa)
+        {
+            return playa.SetDiscPov(2, player, 2);
         }
 
         private bool Start(uint player, vJoy playa)
@@ -92,7 +121,15 @@ namespace TwitchPlays
             return playa.SetBtn(true, player, 1);
         }
 
+        private bool RB(uint player, vJoy playa)
+        {
+            return playa.SetBtn(true, player, 3);
+        }
 
+        private bool LB(uint player, vJoy playa)
+        {
+            return playa.SetBtn(true, player, 4);
+        }
         public CommandEventArgs Handle(string command, string user)
         {
             string[] allTheStuff = command.Trim().Split(' ');
@@ -111,8 +148,8 @@ namespace TwitchPlays
                     if (!usersList.ContainsKey(user) || allTheStuff.Length > 1 || !commands.ContainsKey(allTheStuff[0]))
                         return null;
                     uint currentPlayer = usersList[user];
-                    Reset(currentPlayer);
                     vJoy playa = currentPlayer == 1 ? player1 : player2;
+                    Reset(currentPlayer, playa);
                     succeeded = (bool)commands[allTheStuff[0]].DynamicInvoke(currentPlayer);
                     break;
             }
@@ -136,7 +173,7 @@ namespace TwitchPlays
             usersList[user] = chosenPlayer;
             return true;
         }
-        private void Reset(uint player)
+        private void ResetAll(uint player)
         {
             vJoy playa = player == 1 ? player1 : player2;
             bool code = false;
@@ -146,6 +183,15 @@ namespace TwitchPlays
                 code = playa.SetBtn(false, player, i);
             }
             for (uint i = 3; i <= 5; i++)
+                code = playa.SetBtn(false, player, i);
+
+            System.Threading.Thread.Sleep(50);
+        }
+        private void Reset(uint player, vJoy playa)
+        {
+            bool code = false;
+            code = playa.SetDiscPov(-1, player, 2);
+            for (uint i = 1; i <= 5; i++)
                 code = playa.SetBtn(false, player, i);
 
             System.Threading.Thread.Sleep(50);
