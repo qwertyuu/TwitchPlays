@@ -150,7 +150,7 @@ namespace TwitchPlays
                     uint currentPlayer = usersList[user];
                     vJoy playa = currentPlayer == 1 ? player1 : player2;
                     Reset(currentPlayer, playa);
-                    succeeded = (bool)commands[allTheStuff[0]].DynamicInvoke(currentPlayer);
+                    succeeded = (bool)commands[allTheStuff[0]].DynamicInvoke(currentPlayer, playa);
                     break;
             }
             if (succeeded)
@@ -170,8 +170,12 @@ namespace TwitchPlays
 
         private bool SetPlayer(uint chosenPlayer, string user)
         {
-            usersList[user] = chosenPlayer;
-            return true;
+            if (chosenPlayer == 1 || chosenPlayer == 2)
+            {
+                usersList[user] = chosenPlayer;
+                return true;
+            }
+            return false;
         }
         private void ResetAll(uint player)
         {
